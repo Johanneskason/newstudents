@@ -1,0 +1,186 @@
+*, *:before, *:after {
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+.wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.students-wrapper {
+    max-width: 1070px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.footer {
+    text-align: center;
+    padding: 30px 0;
+}
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #eee;
+}
+
+h4 {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.navigation {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+    position: absolute;
+    right: 0;
+    top: -3px;
+}
+
+.navigation li,
+.navigation a {
+    display: inline-block;
+}
+
+.navigation a {
+    padding: 6px 10px;
+    color: #08c;
+    text-decoration: none;
+}
+
+.navigation a:hover {
+    text-decoration: underline;
+}
+
+.introduction {
+    background: #fff;
+    padding: 45px 30px;
+    margin-bottom: 30px;
+    color: inherit;
+}
+
+.introduction h1 {
+    font-size: 63px;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.introduction p {
+    margin-bottom: 15px; 
+    font-size: 21px;
+    font-weight: 200;
+}
+
+.create-student select,
+.create-student input,
+.create-student button {
+    display: block;
+    width: 100%;
+    color: #555;
+    margin-bottom: 20px;
+    padding: 16px;
+    font-size: 20px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.create-student select:focus,
+.create-student input:focus {
+    border-color: #66afe9;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+}
+
+.create-student select {
+    height: 50px;
+}
+
+.create-student button {
+    color: #fff;
+    background-color: #428bca;
+    border-color: #357ebd;
+}
+.create-student button:hover {
+    cursor: pointer;
+    color: #fff;
+    background-color: #3276b1;
+    border-color: #285e8e;
+}
+
+.error {
+    text-align: center;
+    color: #31708f;
+    background-color: #d9edf7;
+    padding: 10px;
+    margin-bottom: 25px;
+    border: 1px solid #bce8f1;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.error p {
+    margin: 0;
+}
+
+.success {
+    text-align: center;
+    color: #3c763d;
+    background-color: #dff0d8;
+    padding: 10px;
+    margin-bottom: 25px;
+    border: 1px solid #d6e9c6;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.success p {
+    margin: 0;
+}
+
+.download-form {
+    margin-top: 10%;    
+    padding: 50px;
+}
+
+.download-form button {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    font-size: 20px;
+    border: 1px solid #357ebd;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    color: #fff;
+    background-color: #428bca;
+}
+
+.download-form button:hover {
+    cursor: pointer;
+    color: #fff;
+    background-color: #3276b1;
+    border-color: #285e8e;
+}
+
+.students {
+    background: white;
+    padding: 20px;
+}
+
+.student {
+    display: inline-block;
+    padding: 10px;
+}
+
+.student p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.student img {
+    max-width: 100%;
+}

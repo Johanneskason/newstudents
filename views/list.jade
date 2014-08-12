@@ -1,0 +1,30 @@
+doctype html
+html(lang="sv")
+    head
+        meta(charset="utf-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge,chrome=1")
+        title Medieteknik - Ny Student
+        link(rel="stylesheet" href="assets/css/main.css")
+    body
+        div.students-wrapper
+            h4 Medieteknik - Malmö Högskola
+            ul.navigation
+                li
+                    a(href="/") Start
+                li
+                    a(href="/list") Lista
+                li
+                    a(href="/export") Exportera
+
+            div.students
+                each student in students
+                    div.student
+                        img(alt="Student photograph" src="assets/img/" + student.image)
+                        p.name= student.firstname + ' ' + student.lastname + ' (' + student.program + ')'
+                        p.phone= student.phone
+                        p.email= student.email
+                
+
+        footer.footer
+            p Medieteknik

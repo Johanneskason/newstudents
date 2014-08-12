@@ -23,3 +23,17 @@ build/Release
 # Deployed apps should consider commenting this line out:
 # see https://npmjs.org/doc/faq.html#Should-I-check-my-node_modules-folder-into-git
 node_modules
+
+build
+
+.sass-cache
+
+.DS_Store
+.DS_Store?
+
+assets/css/*
+assets/js/bundle.js
+assets/js/bundle.min.js
+assets/js/vendor/*
+
+students.json

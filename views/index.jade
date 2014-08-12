@@ -1,0 +1,47 @@
+doctype html
+html(lang="sv")
+    head
+        meta(charset="utf-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge,chrome=1")
+        title Medieteknik - Ny Student
+        link(rel="stylesheet" href="assets/css/main.css")
+    body
+        div.wrapper
+            h4 Medieteknik - Malmö Högskola
+            ul.navigation
+                li
+                    a(href="/") Start
+                li
+                    a(href="/list") Lista
+                li
+                    a(href="/export") Exportera
+
+            div.introduction
+                h1 Hej student
+                p Fyll i dina personuppgifter i formuläret nedan. Informationen använder vi för att göra fotolistor, kontaktlistor och reslutatmallar.
+                p Undvik stavfel och skriv för- och efternamn med stor begynnelsebokstav.
+
+            if error
+                div.error
+                    p Vänligen fyll i samtliga fält på ett korrekt vis.
+
+            if success
+                div.success
+                    p Ny student tillagd!
+
+            form.create-student(action="/" method="POST")
+                select(name="program")
+                    option(value="") Välj utbildningsprogram
+                    option(value="PM") Produktionsledare - Media
+                    option(value="MPP") Medieproduktion och processdesign
+                input(type="text" name="firstname" placeholder="Förnamn")
+                input(type="text" name="lastname" placeholder="Efternamn")
+                input(type="text" name="ssn" placeholder="Personnummer")
+                input(type="text" name="phone" placeholder="Telefonnummer")
+                input(type="text" name="email" placeholder="E-post")
+                button(type="submit") Spara
+
+
+        footer.footer
+            p Medieteknik
