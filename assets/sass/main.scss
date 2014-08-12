@@ -184,3 +184,16 @@ h4 {
 .student img {
     max-width: 100%;
 }
+.clear {
+    text-align: center;
+    margin: 15px 0;
+}
+.clear a {
+    padding: 6px 10px;
+    color: #08c;
+    text-decoration: none;
+}
+
+.clear a:hover {
+    text-decoration: underline;
+}

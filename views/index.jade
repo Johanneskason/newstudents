@@ -30,14 +30,14 @@ html(lang="sv")
                 div.success
                     p Ny student tillagd!
 
-            form.create-student(action="/" method="POST")
+            form.create-student(action="/" method="POST" id="form")
                 select(name="program")
-                    option(value="") Välj utbildningsprogram
+                    option(value="0") Välj utbildningsprogram
                     option(value="PM") Produktionsledare - Media
                     option(value="MPP") Medieproduktion och processdesign
                 input(type="text" name="firstname" placeholder="Förnamn")
                 input(type="text" name="lastname" placeholder="Efternamn")
-                input(type="text" name="ssn" placeholder="Personnummer")
+                input(type="text" id="ssn" name="ssn" placeholder="Personnummer (xxxxxx-xxxx)")
                 input(type="text" name="phone" placeholder="Telefonnummer")
                 input(type="text" name="email" placeholder="E-post")
                 button(type="submit") Spara
@@ -45,3 +45,30 @@ html(lang="sv")
 
         footer.footer
             p Medieteknik
+
+        script(type='text/javascript').
+            window.onload = function() {
+                var form = document.getElementById( 'form' ),
+                    ssn = document.getElementById( 'ssn' );
+
+                form.addEventListener( 'submit', function( e ) {
+                    e.preventDefault();
+
+                    if ( ssn.value == '' ) {
+                        return;
+                    }
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.onload = function() {
+                        if ( this.status == 200 ) {
+                            var a = confirm( 'Student existerar: vill du skriva över?' );
+
+                            if ( a ) {
+                                form.submit();
+                            }
+                        }
+                    };
+                    xhr.open( 'get', '/student?ssn=' + ssn.value, true );
+                    xhr.send();
+                });
+            };

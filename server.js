@@ -24,6 +24,29 @@ server.use( bodyParser.urlencoded({ extended: false }) );
 server.use( cookieParser( cookieParserSecret ) );
 server.use( cookieSession({ secret: cookieSessionSecret }) );
 
+fs.exists( studentsFile, function( e ) {
+    if ( ! e ) {
+        var db = { students: [] };
+        fs.writeFile( studentsFile, JSON.stringify( db ), function( err ) {
+            if ( err ) {
+                console.log( '[ERROR]: Unable to create new students.json', err );
+            } else {
+                console.log( '[SERVER]: Created new students.json' );
+            }
+        });
+    }
+});
+
+function trimSSN( ssn ) {
+    ssn = ssn.trim();
+
+    if ( ssn.indexOf( '-' ) < 0 ) {
+        ssn = ssn.slice( 0, 6 ) + '-' + ssn.slice( 6, 10 );
+    }
+
+    return ssn;
+}
+
 // Routes
 server.get( '/', function( req, res ) {
     res.render( 'index', {
@@ -36,40 +59,88 @@ server.post( '/', function( req, res ) {
     var db = {},
         exists = false;
 
-    if ( req.body.program == '' || req.body.firstname == '' ||
+    if ( req.body.program == '0' || req.body.firstname == '' ||
          req.body.lastname == '' || req.body.ssn == '' ||
          req.body.phone == '' || req.body.email == '' ) {
         res.redirect( '/?error=1' );
-     }
+        return;
+    }
+
+    req.body.ssn = trimSSN( req.body.ssn )
 
     fs.readFile( studentsFile, 'utf8', function( err, data ) {
         if ( err ) {
-            console.log( '[ERROR]:', err );
+            console.log( '[ERROR]: Unable to open students.json.', err );
             res.redirect( '/?error=1' );
+            return;
         }
 
         db = JSON.parse( data );
         db.students = db.students || [];
-        db.students.forEach( function( student ) {
+
+        var i;
+
+        db.students.forEach( function( student, index ) {
             if ( student.ssn == req.body.ssn ) {
                 exists = true;
+                i = index;
             }
         });
 
         if ( exists ) {
-            console.log( '[SERVER]: Student already exists' );
-            res.redirect( '/?error=1' );
+            console.log( '[SERVER]: Student already exists - updating.' );
+            db.students[i] = req.body;
         } else {
+            console.log( '[SERVER]: Creating new student.' );
             req.body.image = slug( req.body.lastname + ' ' + req.body.firstname, '_' ).toLowerCase() + '_thumb.jpg';
             db.students.push( req.body );
+        }
+
+        fs.writeFile( studentsFile, JSON.stringify( db ), function( err ) {
+            if ( err ) {
+                console.log( '[ERROR]: Unable to write to students file.', err );
+                res.redirect( '/?error=1' );
+                return;
+            }
+
+            res.redirect( '/?success=' + ( exists ? '2' : '1' ) );
+        });
+    });
+});
+
+server.get( '/student', function( req, res ) {
+    fs.readFile( studentsFile, 'utf8', function( err, data ) {
+        var db = JSON.parse( data );
+
+        db.students.forEach( function( student ) {
+            if ( student.ssn == req.query.ssn ) {
+                res.status( 200 ).end();
+            }
+        });
+
+        res.status( 418 ).end();
+    });
+});
+
+server.get( '/clear', function( req, res ) {
+    var db = { students: [] },
+        uniq = crypto.randomBytes( 8 ).toString( 'base64' );
+
+    fs.rename( studentsFile, 'students_backup_' + uniq + '.json', function( err ) {
+        if ( err ) {
+            console.log( '[ERROR]: Unable to rename students.json', err );
+            res.redirect( '/list' );
+        } else {
+            console.log( '[SYSTEM]: Backup created!' );
 
             fs.writeFile( studentsFile, JSON.stringify( db ), function( err ) {
                 if ( err ) {
-                    console.log( '[ERROR]: Unable to write to students file.', err );
-                    res.redirect( '/?error=1' );
+                    console.log( '[ERROR]: Unable to create new students.json', err );
+                } else {
+                    console.log( '[SERVER]: Created new students.json' );
                 }
 
-                res.redirect( '/?success=1' );
+                res.redirect( '/list' );
             });
         }
     });
@@ -147,6 +218,7 @@ server.use( function( req, res, next ) {
 });
 server.use( function( err, req, res, next ) {
     err.status = err.status || 500;
+    console.log( err );
     res.status( err.status );
     res.render( 'error', { status: err.status } );
 });

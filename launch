@@ -1,0 +1,4 @@
+#!/bin/bash
+scripts_dir=$(dirname $0)
+cd $scripts_dir
+node ./server.js;while :;do sleep 9999;done;
