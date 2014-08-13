@@ -67,7 +67,7 @@ server.post( '/', function( req, res ) {
     }
 
     req.body.ssn = trimSSN( req.body.ssn )
-
+    
     fs.readFile( studentsFile, 'utf8', function( err, data ) {
         if ( err ) {
             console.log( '[ERROR]: Unable to open students.json.', err );
@@ -166,6 +166,63 @@ server.get( '/list', function( req, res ) {
         });
 
         res.render( 'list', { students: db.students } );
+    });
+});
+
+server.get( '/edit', function( req, res ) {
+    fs.readFile( studentsFile, 'utf8', function( err, data ) {
+        if ( err ) {
+            console.log( '[ERROR]:', err );
+            return;
+        }
+
+        var db = JSON.parse( data ),
+            student = {};
+
+        db.students.forEach( function( s ) {
+            if ( req.query.ssn = s.ssn ) {
+                student = s;
+            }
+        });
+
+        res.render( 'edit', {
+            student: student,
+            error: req.query.error,
+            success: req.query.success
+        });
+    });
+});
+
+server.post( '/edit', function( req, res ) {
+    fs.readFile( studentsFile, 'utf8', function( err, data ) {
+        if ( err ) {
+            console.log( '[ERROR]:', err );
+            return;
+        }
+
+        var db = JSON.parse( data ),
+            i = false;
+
+        db.students.forEach( function( student, index ) {
+            if ( req.body.ssn = student.ssn ) {
+                i = index;
+            }
+        });
+
+        if ( i !== false ) {
+            db.students[i] = req.body;
+
+            fs.writeFile( studentsFile, JSON.stringify( db ), function( err ) {
+                if ( err ) {
+                    console.log( '[ERROR]: Unable to write to students file.', err );
+                    return;
+                }
+
+                res.redirect( '/edit?success=1&ssn=' + db.students[i].ssn );
+            });
+        } else {
+            res.redirect( '/edit?error=1&ssn=' + db.students[i].ssn );
+        }
     });
 });
 

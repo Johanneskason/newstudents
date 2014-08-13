@@ -1,0 +1,45 @@
+doctype html
+html(lang="sv")
+    head
+        meta(charset="utf-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge,chrome=1")
+        title Medieteknik - Ny Student
+        link(rel="stylesheet" href="assets/css/main.css")
+    body
+        div.wrapper
+            h4 Medieteknik - Malmö Högskola
+            ul.navigation
+                li
+                    a(href="/") Start
+                li
+                    a(href="/list") Lista
+                li
+                    a(href="/export") Exportera
+
+            if error
+                div.error
+                    p Hoppsan, ett fel uppstod!
+
+            if success
+                div.success
+                    p Student redigerad!
+
+            form.create-student(action="/edit" method="POST" id="form")
+                select(name="program")
+                    each val, key in { PM: 'Produktionsledare - Media', MPP: 'Medieproduktion och processdesign' }
+                        option(value=key selected=key == student.program) #{val}
+
+                input(type="text" name="firstname" placeholder="Förnamn" value=student.firstname)
+                input(type="text" name="lastname" placeholder="Efternamn" value=student.lastname)
+                input(type="text" id="ssn" name="ssn" placeholder="Personnummer (xxxxxx-xxxx)" value=student.ssn)
+                input(type="text" name="phone" placeholder="Telefonnummer" value=student.phone)
+                input(type="text" name="email" placeholder="E-post" value=student.email)
+                input(type="text" name="gender" placeholder="Kön" value=student.gender)
+                input(type="text" name="stop" placeholder="Avbrott" value=student.stop)
+                input(type="text" name="dissertation" placeholder="Examensarbete" value=student.dissertation)
+                button(type="submit") Redigera
+
+
+        footer.footer
+            p Medieteknik
