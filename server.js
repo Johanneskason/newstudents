@@ -230,7 +230,7 @@ server.get( '/export', function( req, res ) {
     res.render( 'export' );
 });
 
-server.post( '/export', function( req, res ) {
+server.get( '/download', function( req, res ) {
     fs.readFile( studentsFile, 'utf8', function( err, data ) {
         if ( err ) {
             console.log( '[ERROR]:', err );
@@ -262,7 +262,7 @@ server.post( '/export', function( req, res ) {
         });
 
         res.attachment( 'students.csv' );
-        res.type( 'text/plain' );
+        res.type( 'text/csv' );
         res.charset = 'UTF-8';
         res.send( csv );
     });
