@@ -24,7 +24,7 @@ html(lang="sv")
                 each student in students
                     div.student
                         a(href="/edit?ssn=" + student.ssn)
-                            img(alt="Student photograph" src="assets/img/" + (student.image ? student.image : 'placeholder.gif'))
+                            img(alt="Student photograph" onError="this.src = 'assets/img/placeholder.gif'" src="assets/img/" + (student.image ? student.image : 'placeholder.gif'))
                         p.name= student.firstname + ' ' + student.lastname + ' (' + student.program + ')'
                         p.phone= student.phone
                         p.email= student.email

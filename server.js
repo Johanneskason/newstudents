@@ -18,7 +18,7 @@ var studentsFile = __dirname + '/students.json';
 
 // Middleware configuration
 server.set( 'view engine', 'jade' );
-server.use( logger( 'combined' ) );
+// server.use( logger( 'combined' ) );
 server.use( '/assets', express.static( __dirname + '/assets' ) );
 server.use( bodyParser.urlencoded({ extended: false }) );
 server.use( cookieParser( cookieParserSecret ) );
@@ -262,7 +262,8 @@ server.post( '/export', function( req, res ) {
         });
 
         res.attachment( 'students.csv' );
-        res.type( 'text/csv' );
+        res.type( 'text/plain' );
+        res.charset = 'UTF-8';
         res.send( csv );
     });
 });
@@ -275,7 +276,7 @@ server.use( function( req, res, next ) {
 });
 server.use( function( err, req, res, next ) {
     err.status = err.status || 500;
-    console.log( err );
+    console.log( '[ERROR]:', err );
     res.status( err.status );
     res.render( 'error', { status: err.status } );
 });
