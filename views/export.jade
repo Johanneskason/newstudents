@@ -18,6 +18,10 @@ html(lang="sv")
                     a(href="/export") Exportera
 
             form.download-form(action="/download" method="GET")
+                select.type(name="program")
+                    option(value="any") Samtliga program
+                    option(value="PM") Produktionsledare - Media
+                    option(value="MPP") Medieproduktion och processdesign
                 button(type="submit") Exportera
 
         footer.footer

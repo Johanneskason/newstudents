@@ -124,9 +124,9 @@ server.get( '/student', function( req, res ) {
 
 server.get( '/clear', function( req, res ) {
     var db = { students: [] },
-        uniq = crypto.randomBytes( 8 ).toString( 'base64' );
+        date = new Date();
 
-    fs.rename( studentsFile, 'students_backup_' + uniq + '.json', function( err ) {
+    fs.rename( studentsFile, 'students_backup_' + date.toString() + '.json', function( err ) {
         if ( err ) {
             console.log( '[ERROR]: Unable to rename students.json', err );
             res.redirect( '/list' );
@@ -251,14 +251,25 @@ server.get( '/download', function( req, res ) {
         });
 
         db.students.forEach( function( student ) {
-            csv += [
-                student.firstname,
-                student.lastname,
-                student.phone,
-                student.email,
-                student.ssn,
-                student.image
-            ].join( ',' ) + '\n';
+            if ( req.query.program == 'any' ) {
+                csv += [
+                    student.firstname,
+                    student.lastname,
+                    student.phone,
+                    student.email,
+                    student.ssn,
+                    student.image
+                ].join( ',' ) + '\n';
+            } else if ( student.program == req.query.program ) {
+                csv += [
+                    student.firstname,
+                    student.lastname,
+                    student.phone,
+                    student.email,
+                    student.ssn,
+                    student.image
+                ].join( ',' ) + '\n';
+            }
         });
 
         res.attachment( 'students.csv' );
@@ -270,7 +281,7 @@ server.get( '/download', function( req, res ) {
 
 // Error handlers
 server.use( function( req, res, next ) {
-    var err = new Error( 'Page Not Found' );
+    var err = new Error( 'Page Not Found [' + req.path + ']' );
     err.status = 404;
     next( err );
 });
