@@ -180,7 +180,7 @@ server.get( '/edit', function( req, res ) {
             student = {};
 
         db.students.forEach( function( s ) {
-            if ( req.query.ssn = s.ssn ) {
+            if ( req.query.ssn == s.ssn ) {
                 student = s;
             }
         });
